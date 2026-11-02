@@ -1,13 +1,11 @@
 import http from 'node:http';
-import url from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
 
 /**
  * Lightweight, zero-dependency Express-compatible router & server.
- * Ensures the application runs flawlessly out-of-the-box on any machine
- * even before `npm install` is executed, while seamlessly adhering to 
- * standard Express middleware and route handler signatures.
+ * Uses modern WHATWG URL API (no deprecated url.parse), supports static
+ * file serving, middleware chain, CORS, route parameters, and query strings.
  */
 
 // Content-type lookup for static files
@@ -126,20 +124,33 @@ export function createApp() {
             return (req, res, next) => {
                 if (req.method !== 'GET' && req.method !== 'HEAD') return next();
 
-                const parsed = url.parse(req.url);
-                let safeSuffix = path.normalize(parsed.pathname).replace(/^(\.\.[\/\\])+/, '');
-                if (safeSuffix === '/' || safeSuffix === '\\') safeSuffix = 'index.html';
+                const parsed = new URL(req.url, 'http://localhost');
+                let pathname = parsed.pathname;
+
+                let safeSuffix = path.normalize(pathname).replace(/^(\.\.[\/\\])+/, '');
+                if (safeSuffix === '/' || safeSuffix === '\\' || safeSuffix === '') {
+                    safeSuffix = 'index.html';
+                }
+                while (safeSuffix.startsWith('/') || safeSuffix.startsWith('\\')) {
+                    safeSuffix = safeSuffix.slice(1);
+                }
 
                 const filePath = path.join(staticDir, safeSuffix);
 
                 if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
                     const ext = path.extname(filePath).toLowerCase();
                     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-                    res.writeHead(200, {
-                        'Content-Type': contentType,
-                        'Cache-Control': 'no-cache'
-                    });
-                    fs.createReadStream(filePath).pipe(res);
+                    try {
+                        const content = fs.readFileSync(filePath);
+                        res.writeHead(200, {
+                            'Content-Type': contentType,
+                            'Content-Length': content.length,
+                            'Cache-Control': 'no-cache'
+                        });
+                        res.end(content);
+                    } catch (err) {
+                        next(err);
+                    }
                 } else {
                     next();
                 }
@@ -147,11 +158,11 @@ export function createApp() {
         },
         listen(port, callback) {
             const server = http.createServer((req, res) => {
-                const parsedUrl = url.parse(req.url, true);
+                const parsedUrl = new URL(req.url, `http://localhost:${port}`);
                 const pathname = parsedUrl.pathname;
 
                 // Attach Express-compatible properties and methods
-                req.query = parsedUrl.query || {};
+                req.query = Object.fromEntries(parsedUrl.searchParams.entries());
                 req.params = {};
                 req.originalUrl = req.url;
 
@@ -191,7 +202,6 @@ export function createApp() {
                             nextMiddleware(e);
                         }
                     } else {
-                        // Check routes
                         dispatchRoute();
                     }
                 };

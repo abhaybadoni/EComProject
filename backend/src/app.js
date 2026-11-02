@@ -1,4 +1,5 @@
 import path from 'node:path';
+import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createApp } from './utils/router.js';
 import registerProductRoutes from './routes/productRoutes.js';
@@ -6,7 +7,8 @@ import registerCategoryRoutes from './routes/categoryRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendDir = path.resolve(__dirname, '../../../frontend');
+// Point correctly to ProgLabProject/frontend
+const frontendDir = path.resolve(__dirname, '../../frontend');
 
 export async function createServer() {
     let app;
@@ -41,6 +43,28 @@ export async function createServer() {
         next();
     });
 
+    // Explicit Root route to serve the ApnaBazar Single Page Application
+    app.get('/', (req, res) => {
+        const indexPath = path.join(frontendDir, 'index.html');
+        if (fs.existsSync(indexPath)) {
+            const content = fs.readFileSync(indexPath);
+            res.writeHead(200, {
+                'Content-Type': 'text/html; charset=UTF-8',
+                'Content-Length': content.length,
+                'Cache-Control': 'no-cache'
+            });
+            res.end(content);
+        } else {
+            res.status(404).json({ success: false, error: 'Not Found', message: 'index.html not found' });
+        }
+    });
+
+    // Favicon endpoint to avoid 404 console noise
+    app.get('/favicon.ico', (req, res) => {
+        res.writeHead(204);
+        res.end();
+    });
+
     // Health check endpoint
     app.get('/api/health', (req, res) => {
         res.status(200).json({
@@ -55,7 +79,7 @@ export async function createServer() {
     registerProductRoutes(app);
     registerCategoryRoutes(app);
 
-    return { app, isExpress };
+    return { app, isExpress, frontendDir };
 }
 
 export default createServer;

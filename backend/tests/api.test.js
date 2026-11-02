@@ -28,6 +28,15 @@ function request(method, pathUrl) {
             res.headers[key.toLowerCase()] = val;
         };
 
+        res.writeHead = (code, headers) => {
+            res.statusCode = code;
+            if (headers) {
+                for (const [k, v] of Object.entries(headers)) {
+                    res.headers[k.toLowerCase()] = v;
+                }
+            }
+        };
+
         res.status = (code) => {
             res.statusCode = code;
             return res;
@@ -97,7 +106,19 @@ test.before(async () => {
     appInstance = app;
 });
 
-test('Health Check API', async (t) => {
+test('Frontend Web & Health Check', async (t) => {
+    await t.test('GET / returns 200 and serves ApnaBazar HTML', async () => {
+        const res = await request('GET', '/');
+        assert.equal(res.status, 200);
+        assert.match(res.body, /ApnaBazar/);
+        assert.match(res.body, /<!DOCTYPE html>/i);
+    });
+
+    await t.test('GET /favicon.ico returns 204 No Content', async () => {
+        const res = await request('GET', '/favicon.ico');
+        assert.equal(res.status, 204);
+    });
+
     await t.test('GET /api/health returns 200 and ok status', async () => {
         const res = await request('GET', '/api/health');
         assert.equal(res.status, 200);
