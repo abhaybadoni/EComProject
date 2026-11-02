@@ -230,7 +230,7 @@ function renderProductsGrid() {
                         alt="${p.title}" 
                         class="card-image"
                         loading="lazy"
-                        onerror="this.src='/images/products/kesar-hamper.svg'"
+                        onerror="this.src='/images/products/kesar.jpg'"
                     />
                     <div class="card-badge-container">
                         ${p.is_featured ? `<span class="badge badge-featured">★ FESTIVE DEAL</span>` : ''}
