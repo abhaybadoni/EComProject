@@ -52,20 +52,18 @@ ApnaBazar is production-ready full-stack e-commerce application tailored specifi
 ## 📸 Screenshots
 
 ### 1. Product Listing Page (ApnaBazar)
-*Displays the top Indian announcement bar, ApnaBazar branding, festive banner, category quick chips, filter sidebar, and product cards grid with INR pricing, MRPs, and discount tags.*
 
-![ApnaBazar Product Listing Page](screenshots/product-listing-page.svg)
+Displays the ApnaBazar storefront with product categories, filters, search bar, sorting options, product cards, and Indian pricing.
 
-*(Raster PNG fallback available at `screenshots/product-listing-page.png`)*
+![ApnaBazar Product Listing Page](screenshots/product-listing-page.png)
 
 ---
 
-### 2. Product Details View (Modal / Deep Link)
-*Displays the multi-image gallery, breadcrumbs, rating, MRP savings breakdown, Indian bank offers, delivery to pincode, specifications table, and Add-to-Bag action.*
+### 2. Product Details View
 
-![ApnaBazar Product Details View](screenshots/product-detail-page.svg)
+Displays the product details modal with product image, ratings, SKU, pricing breakdown, discount, stock availability, bank offers, and product information.
 
-*(Raster PNG fallback available at `screenshots/product-detail-page.png`)*
+![ApnaBazar Product Details Page](screenshots/product-detail-page.png)
 
 ---
 
@@ -262,9 +260,7 @@ ProgLabProject/
 │   ├── js/app.js                 # State controller, INR formatting, filters & modal
 │   └── index.html                # ApnaBazar single-page application markup
 ├── screenshots/
-│   ├── product-listing-page.svg  # ApnaBazar listing page screenshot
 │   ├── product-listing-page.png  # PNG raster version
-│   ├── product-detail-page.svg   # ApnaBazar product detail modal screenshot
 │   └── product-detail-page.png   # PNG raster version
 ├── .gitignore
 ├── package.json                  # Root monorepo launcher
