@@ -1,6 +1,6 @@
 -- =====================================================================
--- Full-Stack E-Commerce Database Schema (SQLite / Relational SQL)
--- Part 1: Product Listing Website
+-- ApnaBazar (अपना बाज़ार) — Database Schema (SQLite / Relational SQL)
+-- Part 1: Product Listing Website (Indian Scenario)
 -- =====================================================================
 
 -- Enforce Foreign Key constraints in SQLite
@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
+    name_hi TEXT,
     slug TEXT NOT NULL UNIQUE,
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -31,6 +32,7 @@ CREATE TABLE products (
     slug TEXT NOT NULL UNIQUE,
     description TEXT NOT NULL,
     price REAL NOT NULL CHECK (price >= 0),
+    mrp REAL CHECK (mrp >= price),
     category_id INTEGER NOT NULL,
     image_url TEXT NOT NULL,
     thumbnail_url TEXT,
@@ -40,6 +42,7 @@ CREATE TABLE products (
     brand TEXT,
     sku TEXT UNIQUE,
     is_featured INTEGER DEFAULT 0 CHECK (is_featured IN (0, 1)),
+    is_cod_eligible INTEGER DEFAULT 1 CHECK (is_cod_eligible IN (0, 1)),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT

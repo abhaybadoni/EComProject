@@ -3,19 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora Market — Curated Goods & Lifestyle Essentials</title>
-    <meta name="description" content="Discover premium electronics, apparel, kitchenware, footwear, and accessories at Aurora Market.">
+    <title>ApnaBazar (अपना बाज़ार) — Bharat Ka Online Shopping Destination</title>
+    <meta name="description" content="Shop authentic Indian groceries, Banarasi sarees, home appliances, boAt audio, and Ayurvedic wellness essentials at ApnaBazar. Super savings, Cash on Delivery & Free Delivery across India.">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
 </head>
 <body>
 
-    <!-- 1. Top Navigation Bar -->
+    <!-- 1. Indian Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-left">
+                <span class="top-bar-pill">🇮🇳 BHARAT SPECIAL</span>
+                <span><strong>Free Delivery</strong> on orders above ₹499 | <strong>Cash on Delivery (COD)</strong> Available</span>
+            </div>
+            <div class="top-bar-right">
+                <div class="pincode-badge">
+                    <span>📍 Deliver to:</span>
+                    <strong id="pincode-display">110001 (New Delhi)</strong>
+                </div>
+                <span>|</span>
+                <span>🇮🇳 100% Shuddh &amp; Authentic</span>
+                <span>|</span>
+                <span>24x7 Customer Sahayata: <strong>1800-APNA-BAZAR</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Main Navigation Bar -->
     <header class="navbar">
         <div class="container nav-inner">
+            <!-- Brand Logo -->
             <a href="/" class="brand-logo">
-                <div class="brand-icon">A</div>
-                <span>Aurora<span style="color: var(--primary);">Market</span></span>
+                <div class="brand-icon">AB</div>
+                <div class="brand-text-wrap">
+                    <div class="brand-name">Apna<span>Bazar</span></div>
+                    <div class="brand-tagline">अपना बाज़ार &bull; Har Ghar Ki Pasand</div>
+                </div>
             </a>
 
             <!-- Search Bar -->
@@ -25,111 +49,131 @@
                     type="text" 
                     id="nav-search-input" 
                     class="nav-search-input" 
-                    placeholder="Search premium electronics, apparel, kitchenware..." 
+                    placeholder="Search for Desi Ghee, Banarasi Sarees, boAt Headphones, Preethi Mixers..." 
                     autocomplete="off"
                 />
                 <button id="search-clear-btn" class="search-clear-btn" title="Clear search">✕</button>
             </div>
 
-            <!-- Action items -->
+            <!-- Action Buttons -->
             <div class="nav-actions">
-                <button class="nav-cart-btn" id="nav-cart-btn" title="View Cart">
-                    <span>🛒</span>
-                    <span>Cart</span>
+                <button class="nav-deals-btn" onclick="alert('🎉 Diwali & Festive Dhamaka Offers Active: Flat 10% instant off on UPI payments!')">
+                    <span>⚡</span>
+                    <span>Maha Deals</span>
+                </button>
+
+                <button class="nav-cart-btn" id="nav-cart-btn" title="Shopping Bag">
+                    <span>🛍️</span>
+                    <span>Bag</span>
                     <span class="cart-badge" id="nav-cart-count">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- 2. Hero Showcase Banner -->
+    <!-- 3. Festive Indian Bazaar Hero Showcase -->
     <section class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-pill">
-                    <span>✦</span> Curated Autumn Collection 2026
+                <div class="festive-tag">
+                    <span>✦</span> MAHA BAZAAR UTSAV &bull; FESTIVAL SAVINGS
                 </div>
-                <h1 class="hero-title">Refined essentials for modern living.</h1>
+                <h1 class="hero-title">Shuddh, Swadeshi &amp; <span>Super Savings.</span></h1>
                 <p class="hero-subtitle">
-                    Explore our handpicked catalogue of premium audio gear, ergonomic workspaces, sustainable apparel, and artisanal lifestyle essentials.
+                    Discover India's most authentic bazaar online — from cold-churned Vedic A2 Ghee and handwoven Varanasi Silk to heavy-duty Indian kitchen appliances and certified Ayurvedic skincare.
                 </p>
-                <div class="hero-features">
-                    <div class="hero-feat-item">
-                        <span>✓</span> <strong>16+ Handcrafted Items</strong>
+                <div class="hero-badges-row">
+                    <div class="hero-badge-item">
+                        <span>🇮🇳</span> <strong>Direct From Indian Artisans</strong>
                     </div>
-                    <div class="hero-feat-item">
-                        <span>✓</span> <strong>5 Curated Categories</strong>
+                    <div class="hero-badge-item">
+                        <span>💵</span> <strong>Cash on Delivery (COD)</strong>
                     </div>
-                    <div class="hero-feat-item">
-                        <span>✓</span> <strong>Free Express Shipping</strong>
+                    <div class="hero-badge-item">
+                        <span>🚚</span> <strong>Delivery to 19,000+ Pincodes</strong>
                     </div>
-                    <div class="hero-feat-item">
-                        <span>✓</span> <strong>30-Day Hassle-Free Returns</strong>
+                    <div class="hero-badge-item">
+                        <span>🔄</span> <strong>7-Day Easy Replacement</strong>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. Category Quick Bar -->
+    <!-- 4. Category Quick Navigation Bar -->
     <nav class="category-bar-wrapper">
         <div class="container">
             <div class="category-bar" id="category-bar">
-                <!-- Dynamically populated category chips -->
+                <!-- Dynamically populated category chips (English + Hindi) -->
             </div>
         </div>
     </nav>
 
-    <!-- 4. Main Products Layout -->
+    <!-- 5. Main Products Layout -->
     <main class="container main-layout">
         <!-- Sidebar Filters -->
         <aside class="filter-sidebar" id="filter-sidebar">
             <div class="sidebar-header">
-                <h2 class="sidebar-title">Filters</h2>
+                <h2 class="sidebar-title">
+                    <span>⚙️</span> Filters (फ़िल्टर)
+                </h2>
                 <button class="sidebar-reset-btn" id="reset-filters-btn">Clear All</button>
-                <button id="mobile-filter-close" style="display:none; background:none; border:none; font-size:1.25rem;">✕</button>
             </div>
 
-            <!-- Category Filter List -->
+            <!-- Categories -->
             <div class="filter-group">
-                <div class="filter-group-title">Categories</div>
+                <div class="filter-group-title">Categories (श्रेणियां)</div>
                 <div class="filter-category-list" id="sidebar-cat-list">
                     <!-- Populated dynamically -->
                 </div>
             </div>
 
-            <!-- Price Range Filter -->
+            <!-- Indian Rupee Price Slider -->
             <div class="filter-group">
-                <div class="filter-group-title">Max Price</div>
+                <div class="filter-group-title">Price Range (कीमत)</div>
                 <input 
                     type="range" 
                     id="price-slider" 
                     class="price-slider" 
-                    min="20" 
-                    max="500" 
-                    step="10" 
-                    value="500"
+                    min="500" 
+                    max="15000" 
+                    step="250" 
+                    value="15000"
                 />
                 <div class="price-inputs">
                     <div class="price-input-wrapper">
-                        <span class="price-input-prefix">$</span>
+                        <span class="price-input-prefix">₹</span>
                         <input type="number" id="price-min" class="price-input" placeholder="Min" min="0">
                     </div>
                     <span style="color: var(--gray-400);">-</span>
                     <div class="price-input-wrapper">
-                        <span class="price-input-prefix">$</span>
+                        <span class="price-input-prefix">₹</span>
                         <input type="number" id="price-max" class="price-input" placeholder="Max" min="0">
                     </div>
                 </div>
+                <!-- Quick Price Chips -->
+                <div class="price-quick-tags">
+                    <button class="price-quick-btn" data-max-price="1000">Under ₹1,000</button>
+                    <button class="price-quick-btn" data-max-price="2500">Under ₹2,500</button>
+                    <button class="price-quick-btn" data-max-price="5000">Under ₹5,000</button>
+                </div>
             </div>
 
-            <!-- Availability Filter -->
+            <!-- Availability -->
             <div class="filter-group">
-                <div class="filter-group-title">Availability</div>
-                <label class="stock-toggle-label">
-                    <input type="checkbox" id="stock-toggle" class="stock-toggle-checkbox">
-                    <span>In Stock Only</span>
+                <div class="filter-group-title">Availability (उपलब्धता)</div>
+                <label class="filter-checkbox-label">
+                    <input type="checkbox" id="stock-toggle" class="filter-checkbox">
+                    <span>In Stock Only (तैयार स्टॉक)</span>
                 </label>
+            </div>
+
+            <!-- Payment & Delivery Badges -->
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:0.85rem; font-size:0.775rem; color:#475569;">
+                <div style="font-weight:700; color:#0f172a; margin-bottom:0.35rem;">ApnaBazar Promise:</div>
+                <div>✓ 100% Verified Sellers</div>
+                <div>✓ GST Invoice Available</div>
+                <div>✓ Secure UPI / Card Payments</div>
             </div>
         </aside>
 
@@ -138,18 +182,15 @@
             <!-- Toolbar: Results count & Sort dropdown -->
             <div class="products-toolbar">
                 <div class="results-count" id="results-count">
-                    Loading products...
+                    Loading ApnaBazar products...
                 </div>
-                <button id="mobile-filter-btn" class="cat-chip" style="display:none;">
-                    ⚙ Filters
-                </button>
                 <div class="sort-wrapper">
                     <label for="sort-select">Sort by:</label>
                     <select id="sort-select" class="sort-select">
-                        <option value="newest">Featured &amp; Newest</option>
-                        <option value="price_asc">Price: Low to High</option>
-                        <option value="price_desc">Price: High to Low</option>
-                        <option value="rating_desc">Highest Rated</option>
+                        <option value="newest">Featured &amp; Newest (लोकप्रिय)</option>
+                        <option value="price_asc">Price: Low to High (कम से ज्यादा)</option>
+                        <option value="price_desc">Price: High to Low (ज्यादा से कम)</option>
+                        <option value="rating_desc">Highest Rated (शीर्ष रेटेड)</option>
                         <option value="title_asc">Name: A to Z</option>
                     </select>
                 </div>
@@ -160,7 +201,7 @@
 
             <!-- Product Cards Grid -->
             <div class="products-grid" id="products-grid">
-                <!-- Product cards injected by app.js -->
+                <!-- Injected dynamically by app.js -->
             </div>
 
             <!-- Pagination -->
@@ -168,71 +209,83 @@
         </section>
     </main>
 
-    <!-- 5. Product Details Modal / View -->
+    <!-- 6. Product Details Modal / View -->
     <div class="modal-overlay" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-container">
             <button class="modal-close-btn" id="modal-close-btn" aria-label="Close details">✕</button>
             <div id="modal-content">
-                <!-- Dynamically populated product detail view -->
+                <!-- Dynamically populated detailed Indian product view -->
             </div>
         </div>
     </div>
 
-    <!-- 6. Toast Notification Container -->
+    <!-- 7. Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
 
-    <!-- 7. Footer -->
+    <!-- 8. Indian E-Commerce Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="brand-logo">
-                        <div class="brand-icon">A</div>
-                        <span>Aurora<span style="color: var(--primary);">Market</span></span>
+                    <div class="brand-logo" style="margin-bottom:0.75rem;">
+                        <div class="brand-icon">AB</div>
+                        <div class="brand-text-wrap">
+                            <div class="brand-name" style="color:white;">Apna<span style="color:#fbbf24;">Bazar</span></div>
+                            <div class="brand-tagline" style="color:#fed7aa;">अपना बाज़ार &bull; Bharat Ka Vishwas</div>
+                        </div>
                     </div>
                     <p>
-                        A modern, high-performance e-commerce platform built with clean full-stack engineering practices. Backed by a relational SQL database.
+                        ApnaBazar is India's favourite online marketplace bringing authentic regional staples, handloom textiles, high-performance home appliances, and Ayurvedic remedies directly to your doorstep.
                     </p>
+                    <div style="margin-top:1rem; font-size:0.85rem; color:#fbbf24;">
+                        🇮🇳 Made with pride for Bharat &bull; ISO 9001:2015 Certified
+                    </div>
                 </div>
+
                 <div>
-                    <h4 class="footer-title">Categories</h4>
+                    <h4 class="footer-title">Top Categories</h4>
                     <ul class="footer-links">
-                        <li><a href="?category=electronics">Electronics &amp; Audio</a></li>
-                        <li><a href="?category=footwear">Footwear &amp; Sneakers</a></li>
-                        <li><a href="?category=fashion">Fashion &amp; Apparel</a></li>
-                        <li><a href="?category=home-kitchen">Home &amp; Kitchenware</a></li>
-                        <li><a href="?category=accessories">Accessories &amp; Timepieces</a></li>
+                        <li><a href="?category=groceries">Groceries &amp; Masalas (किराना)</a></li>
+                        <li><a href="?category=ethnic-wear">Ethnic Wear &amp; Sarees (परिधान)</a></li>
+                        <li><a href="?category=electronics">Electronics &amp; Mixers (इलेक्ट्रॉनिक्स)</a></li>
+                        <li><a href="?category=home-puja">Home &amp; Puja (पूजा सामग्री)</a></li>
+                        <li><a href="?category=ayurveda">Ayurveda &amp; Wellness (आयुर्वेद)</a></li>
                     </ul>
                 </div>
+
                 <div>
                     <h4 class="footer-title">Customer Care</h4>
                     <ul class="footer-links">
-                        <li><a href="#/">Shipping Policy</a></li>
-                        <li><a href="#/">Returns &amp; Warranty</a></li>
-                        <li><a href="#/">Order Tracking</a></li>
-                        <li><a href="#/">Privacy &amp; Security</a></li>
-                        <li><a href="#/">API Documentation</a></li>
+                        <li><a href="#/">Track Your Order (ऑर्डर ट्रैक)</a></li>
+                        <li><a href="#/">Return &amp; Refund Policy</a></li>
+                        <li><a href="#/">Cash on Delivery (COD) FAQs</a></li>
+                        <li><a href="#/">Shipping Across 28 States</a></li>
+                        <li><a href="#/">Toll-Free Helpline</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="footer-title">Architecture Highlights</h4>
-                    <p style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.6; margin-bottom: 0.75rem;">
-                        <strong>Part 1 — Product Listing</strong><br>
-                        Relational SQLite backend with foreign keys, RESTful API endpoints, request validation, responsive frontend, and client-side routing.
-                    </p>
-                    <span style="display:inline-block; font-size:0.75rem; background:var(--gray-100); padding:0.25rem 0.5rem; border-radius:4px; color:var(--gray-700);">
-                        ⚡ Node.js &bull; SQLite &bull; REST API
+                    <h4 class="footer-title">Accepted Payment Modes</h4>
+                    <div style="font-size:0.85rem; color:#94a3b8; line-height:1.7; margin-bottom:1rem;">
+                        💵 Cash on Delivery (COD)<br>
+                        📱 UPI (Google Pay, PhonePe, Paytm, BHIM)<br>
+                        💳 RuPay, Visa, MasterCard, SBI, HDFC<br>
+                        🏦 Net Banking across all Indian banks
+                    </div>
+                    <span style="display:inline-block; font-size:0.75rem; background:rgba(255,255,255,0.1); padding:0.35rem 0.65rem; border-radius:4px; color:#fbbf24;">
+                        🔒 100% Safe &amp; 256-bit SSL Secured
                     </span>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <div>&copy; 2026 Aurora Market Inc. All rights reserved. Full-Stack E-Commerce Project.</div>
-                <div>Engineered with precision for performance, accessibility, and scalability.</div>
+                <div>&copy; 2026 ApnaBazar Internet Private Limited. All rights reserved.</div>
+                <div>Full-Stack E-Commerce Project &bull; Part 1: Product Listing Website (Indian Scenario)</div>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Frontend ES6 Script -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

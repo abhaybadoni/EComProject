@@ -9,6 +9,7 @@ export const Category = {
             SELECT 
                 c.id, 
                 c.name, 
+                c.name_hi,
                 c.slug, 
                 c.description, 
                 c.created_at,

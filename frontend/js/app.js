@@ -1,6 +1,6 @@
 /**
- * Aurora Market — Main Frontend Application Logic
- * Manages State, UI rendering, event listeners, URL routing, and API interaction
+ * ApnaBazar (अपना बाज़ार) — Frontend Application Controller
+ * Tailored for Indian e-commerce shopping experience (INR ₹, COD, MRP & Discounts)
  */
 
 import api from './api.js';
@@ -29,20 +29,23 @@ const state = {
     activeGalleryIndex: 0,
     selectedQuantity: 1,
     cartCount: 0,
+    userPincode: '110001 (New Delhi)',
     isLoading: false
 };
 
-// DOM Element References
+// Currency Formatter for Indian Rupees (₹)
+const formatINR = (amount) => {
+    return '₹' + Number(amount || 0).toLocaleString('en-IN', {
+        maximumFractionDigits: 0
+    });
+};
+
+// DOM References
 const elements = {
-    // Search
     navSearchInput: document.getElementById('nav-search-input'),
     searchClearBtn: document.getElementById('search-clear-btn'),
-    
-    // Categories
     catBar: document.getElementById('category-bar'),
     sidebarCatList: document.getElementById('sidebar-cat-list'),
-    
-    // Filters & Sorting
     priceRangeSlider: document.getElementById('price-slider'),
     priceMinInput: document.getElementById('price-min'),
     priceMaxInput: document.getElementById('price-max'),
@@ -50,25 +53,15 @@ const elements = {
     sortSelect: document.getElementById('sort-select'),
     resetFiltersBtn: document.getElementById('reset-filters-btn'),
     activeFiltersBar: document.getElementById('active-filters-bar'),
-    
-    // Mobile Drawer
-    mobileFilterBtn: document.getElementById('mobile-filter-btn'),
-    mobileFilterClose: document.getElementById('mobile-filter-close'),
-    filterSidebar: document.getElementById('filter-sidebar'),
-    
-    // Products Grid & Counter
     productsGrid: document.getElementById('products-grid'),
     resultsCount: document.getElementById('results-count'),
     paginationWrapper: document.getElementById('pagination-wrapper'),
-    
-    // Product Detail Modal
     productModal: document.getElementById('product-modal'),
     modalCloseBtn: document.getElementById('modal-close-btn'),
     modalContent: document.getElementById('modal-content'),
-    
-    // Cart & Toast
     navCartCount: document.getElementById('nav-cart-count'),
-    toastContainer: document.getElementById('toast-container')
+    toastContainer: document.getElementById('toast-container'),
+    pincodeDisplay: document.getElementById('pincode-display')
 };
 
 /**
@@ -77,7 +70,7 @@ const elements = {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = 'toast';
-    const icon = type === 'success' ? '✓' : 'ℹ';
+    const icon = type === 'success' ? '✓' : type === 'warning' ? '⚠️' : '🇮🇳';
     toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
     elements.toastContainer.appendChild(toast);
 
@@ -86,7 +79,7 @@ function showToast(message, type = 'info') {
         toast.style.transform = 'translateY(10px)';
         toast.style.transition = 'all 0.3s ease';
         setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    }, 3200);
 }
 
 /**
@@ -101,7 +94,7 @@ async function init() {
 }
 
 /**
- * Load categories from backend API and populate UI
+ * Load categories from backend API and render
  */
 async function loadCategories() {
     try {
@@ -116,34 +109,36 @@ async function loadCategories() {
 }
 
 /**
- * Render category navigation buttons in both quick-bar and sidebar
+ * Render category navigation chips (English + Hindi)
  */
 function renderCategoryNavigation() {
     const totalCount = state.categories.reduce((sum, c) => sum + (c.product_count || 0), 0);
 
-    // Render Quick Bar
+    // Quick Bar Chips
     const quickBarHtml = `
         <button class="cat-chip ${state.filters.category === 'all' ? 'active' : ''}" data-category="all">
-            All Products <span class="cat-count">(${totalCount})</span>
+            <span>All Products</span>
+            <span class="cat-hi-sub">सभी सामान (${totalCount})</span>
         </button>
         ${state.categories.map(c => `
             <button class="cat-chip ${state.filters.category === c.slug ? 'active' : ''}" data-category="${c.slug}">
-                ${c.name} <span class="cat-count">(${c.product_count})</span>
+                <span>${c.name}</span>
+                <span class="cat-hi-sub">${c.name_hi || ''} (${c.product_count})</span>
             </button>
         `).join('')}
     `;
     elements.catBar.innerHTML = quickBarHtml;
 
-    // Render Sidebar list
+    // Sidebar Category Items
     const sidebarHtml = `
         <div class="filter-category-item ${state.filters.category === 'all' ? 'active' : ''}" data-category="all">
-            <span>All Categories</span>
-            <span class="cat-count">${totalCount}</span>
+            <span>All Categories (सभी श्रेणियां)</span>
+            <span style="font-weight:700;">${totalCount}</span>
         </div>
         ${state.categories.map(c => `
             <div class="filter-category-item ${state.filters.category === c.slug ? 'active' : ''}" data-category="${c.slug}">
                 <span>${c.name}</span>
-                <span class="cat-count">${c.product_count}</span>
+                <span style="font-weight:700;">${c.product_count}</span>
             </div>
         `).join('')}
     `;
@@ -151,7 +146,7 @@ function renderCategoryNavigation() {
 }
 
 /**
- * Load products from API based on current filter state
+ * Load products from API based on current filters
  */
 async function loadProducts() {
     state.isLoading = true;
@@ -172,9 +167,9 @@ async function loadProducts() {
         elements.productsGrid.innerHTML = `
             <div class="empty-state" style="grid-column: 1 / -1;">
                 <div class="empty-icon">⚠️</div>
-                <h3 class="empty-title">Error Loading Products</h3>
+                <h3 class="empty-title">Error Loading ApnaBazar Products</h3>
                 <p class="empty-subtitle">${err.message}</p>
-                <button class="btn-primary" onclick="window.location.reload()">Retry</button>
+                <button class="btn-primary" onclick="window.location.reload()">Retry Loading</button>
             </div>
         `;
     } finally {
@@ -189,10 +184,10 @@ function renderLoadingSkeletons() {
     const skeletons = Array(6).fill(0).map(() => `
         <div class="skeleton-card">
             <div class="skeleton skeleton-image"></div>
-            <div class="skeleton skeleton-text" style="width: 40%;"></div>
-            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+            <div class="skeleton skeleton-text" style="width: 35%;"></div>
+            <div class="skeleton skeleton-text" style="width: 85%;"></div>
             <div class="skeleton skeleton-text" style="width: 60%;"></div>
-            <div class="skeleton skeleton-text" style="width: 30%; height: 22px; margin-top: 1.25rem;"></div>
+            <div class="skeleton skeleton-text" style="width: 40%; height: 24px; margin-top: 1rem;"></div>
         </div>
     `).join('');
     elements.productsGrid.innerHTML = skeletons;
@@ -205,9 +200,9 @@ function renderProductsGrid() {
     if (!state.products || state.products.length === 0) {
         elements.productsGrid.innerHTML = `
             <div class="empty-state" style="grid-column: 1 / -1;">
-                <div class="empty-icon">🔍</div>
-                <h3 class="empty-title">No products match your criteria</h3>
-                <p class="empty-subtitle">Try adjusting your search query, clearing filters, or browsing other categories.</p>
+                <div class="empty-icon">🛍️</div>
+                <h3 class="empty-title">No products found for this search</h3>
+                <p class="empty-subtitle">Try adjusting your filters, searching for Ghee, Kesar, Banarasi Sarees, or boAt headphones.</p>
                 <button class="btn-primary" id="empty-reset-btn">Reset All Filters</button>
             </div>
         `;
@@ -217,11 +212,14 @@ function renderProductsGrid() {
 
     elements.productsGrid.innerHTML = state.products.map(p => {
         const stars = '★'.repeat(Math.round(p.rating || 5)) + '☆'.repeat(5 - Math.round(p.rating || 5));
-        const formattedPrice = `$${Number(p.price).toFixed(2)}`;
+        const formattedPrice = formatINR(p.price);
+        const formattedMrp = p.mrp ? formatINR(p.mrp) : '';
+        const discountPct = p.mrp ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+
         const stockBadge = p.stock > 15 
-            ? `<span class="badge" style="background:#d1fae5; color:#065f46;">In Stock</span>`
+            ? `<span class="badge" style="background:#dcfce7; color:#166534;">In Stock (${p.stock})</span>`
             : p.stock > 0 
-                ? `<span class="badge" style="background:#fef3c7; color:#92400e;">Only ${p.stock} left</span>`
+                ? `<span class="badge" style="background:#fef3c7; color:#92400e;">Only ${p.stock} left!</span>`
                 : `<span class="badge" style="background:#fee2e2; color:#991b1b;">Out of Stock</span>`;
 
         return `
@@ -232,26 +230,40 @@ function renderProductsGrid() {
                         alt="${p.title}" 
                         class="card-image"
                         loading="lazy"
-                        onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80'"
+                        onerror="this.src='https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=400&q=80'"
                     />
                     <div class="card-badge-container">
-                        ${p.is_featured ? `<span class="badge badge-featured">★ Featured</span>` : ''}
+                        ${p.is_featured ? `<span class="badge badge-featured">★ FESTIVE DEAL</span>` : ''}
                         <span class="badge badge-category">${p.category_name}</span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="card-brand">${p.brand || 'Aurora'}</div>
+                    <div class="card-brand">${p.brand || 'ApnaBazar'}</div>
                     <h3 class="card-title">${p.title}</h3>
                     <p class="card-desc">${p.description}</p>
                     <div class="card-rating">
                         <span class="stars">${stars}</span>
-                        <span>${p.rating} (${p.rating_count})</span>
-                        <span style="margin-left: auto;">${stockBadge}</span>
+                        <strong>${p.rating}</strong>
+                        <span>(${p.rating_count} reviews)</span>
                     </div>
-                    <div class="card-footer">
+
+                    <!-- Price & Discount -->
+                    <div class="card-price-row">
                         <span class="card-price">${formattedPrice}</span>
+                        ${formattedMrp ? `<span class="card-mrp">M.R.P: ${formattedMrp}</span>` : ''}
+                        ${discountPct > 0 ? `<span class="card-discount">${discountPct}% OFF</span>` : ''}
+                    </div>
+
+                    <!-- Perks (COD & Free Delivery) -->
+                    <div class="card-perks">
+                        <span>🚚 Free Delivery</span>
+                        <span>•</span>
+                        <span>💵 Pay on Delivery</span>
+                    </div>
+
+                    <div class="card-footer">
                         <button class="card-action-btn view-details-btn" data-product-id="${p.id}">
-                            View Details →
+                            View Details / Buy Now →
                         </button>
                     </div>
                 </div>
@@ -286,11 +298,11 @@ function renderActiveFilterPills() {
     }
 
     if (state.filters.minPrice || state.filters.maxPrice) {
-        const min = state.filters.minPrice || '0';
-        const max = state.filters.maxPrice || '500+';
+        const min = state.filters.minPrice ? formatINR(state.filters.minPrice) : '₹0';
+        const max = state.filters.maxPrice ? formatINR(state.filters.maxPrice) : '₹15,000+';
         pills.push(`
             <span class="active-filter-pill">
-                Price: $${min} - $${max}
+                Price: ${min} - ${max}
                 <button data-remove-filter="price">&times;</button>
             </span>
         `);
@@ -346,7 +358,7 @@ function renderPagination() {
 function updateResultsCounter() {
     const total = state.pagination.total;
     const count = state.products.length;
-    elements.resultsCount.innerHTML = `Showing <strong>${count}</strong> of <strong>${total}</strong> products`;
+    elements.resultsCount.innerHTML = `Showing <strong>${count}</strong> of <strong>${total}</strong> products in ApnaBazar`;
 }
 
 /**
@@ -356,7 +368,7 @@ async function openProductDetail(productId) {
     try {
         const res = await api.getProductById(productId);
         if (!res.success || !res.data) {
-            showToast('Failed to load product details', 'error');
+            showToast('Failed to load product details', 'warning');
             return;
         }
 
@@ -364,7 +376,6 @@ async function openProductDetail(productId) {
         state.activeGalleryIndex = 0;
         state.selectedQuantity = 1;
 
-        // Update URL hash for deep linking
         window.location.hash = `#/product/${productId}`;
 
         renderProductModal();
@@ -372,7 +383,7 @@ async function openProductDetail(productId) {
         document.body.style.overflow = 'hidden';
     } catch (err) {
         console.error('Error fetching product detail:', err);
-        showToast(err.message, 'error');
+        showToast(err.message, 'warning');
     }
 }
 
@@ -384,19 +395,23 @@ function renderProductModal() {
     if (!p) return;
 
     const stars = '★'.repeat(Math.round(p.rating || 5)) + '☆'.repeat(5 - Math.round(p.rating || 5));
-    const formattedPrice = `$${Number(p.price).toFixed(2)}`;
+    const formattedPrice = formatINR(p.price);
+    const formattedMrp = p.mrp ? formatINR(p.mrp) : '';
+    const discountPct = p.mrp ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+    const savingsAmount = p.mrp ? formatINR(p.mrp - p.price) : 0;
+
     const images = p.images && p.images.length > 0 ? p.images : [{ url: p.image_url, alt_text: p.title }];
     const mainImg = images[state.activeGalleryIndex] || images[0];
 
     const stockPill = p.stock > 15
-        ? `<span class="stock-status-pill stock-in">● In Stock (${p.stock} units available)</span>`
+        ? `<span class="badge" style="background:#dcfce7; color:#166534; font-size:0.8rem;">● In Stock (${p.stock} units in warehouse)</span>`
         : p.stock > 0
-            ? `<span class="stock-status-pill stock-low">▲ Low Stock (Only ${p.stock} left)</span>`
-            : `<span class="stock-status-pill stock-out">✕ Out of Stock</span>`;
+            ? `<span class="badge" style="background:#fef3c7; color:#92400e; font-size:0.8rem;">▲ Hurry! Only ${p.stock} left in stock</span>`
+            : `<span class="badge" style="background:#fee2e2; color:#991b1b; font-size:0.8rem;">✕ Currently Unavailable</span>`;
 
     elements.modalContent.innerHTML = `
         <div class="detail-layout">
-            <!-- Left: Image Gallery -->
+            <!-- Left: Multi-Image Gallery -->
             <div class="detail-gallery">
                 <div class="detail-main-img-wrap">
                     <img 
@@ -418,58 +433,77 @@ function renderProductModal() {
                         `).join('')}
                     </div>
                 ` : ''}
+
+                <!-- Trust Badges -->
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:0.85rem; font-size:0.8rem; color:#475569; display:flex; flex-direction:column; gap:0.4rem;">
+                    <div>🛡️ <strong>100% Original Guarantee:</strong> Sourced directly from certified artisans & brands.</div>
+                    <div>🇮🇳 <strong>Swadeshi Quality:</strong> Handpicked across Indian states.</div>
+                    <div>🔄 <strong>7-Day Replacement Policy:</strong> No questions asked return at doorstep.</div>
+                </div>
             </div>
 
             <!-- Right: Product Info & Actions -->
             <div class="detail-info">
                 <div class="detail-breadcrumbs">
-                    <a href="#/" id="breadcrumb-home">Products</a> &gt; 
+                    <a href="#/" id="breadcrumb-home">ApnaBazar</a> &gt; 
                     <span>${p.category_name}</span> &gt; 
-                    <span>${p.brand || 'Aurora'}</span>
+                    <span>${p.brand || 'Artisan'}</span>
                 </div>
 
                 <h1 class="detail-title">${p.title}</h1>
 
                 <div class="detail-meta-row">
                     <span class="stars" style="font-size: 1.1rem;">${stars}</span>
-                    <strong style="color: var(--gray-800);">${p.rating}</strong>
-                    <span style="color: var(--gray-500);">(${p.rating_count} reviews)</span>
-                    <span style="color: var(--gray-300);">|</span>
-                    <span class="detail-sku">SKU: ${p.sku || 'N/A'}</span>
+                    <strong style="color: #0f172a;">${p.rating}</strong>
+                    <span style="color: #64748b;">(${p.rating_count} verified Indian buyers)</span>
+                    <span style="color: #cbd5e1;">|</span>
+                    <span style="font-size: 0.8rem; color: #64748b; font-family: monospace;">SKU: ${p.sku || 'AB-N/A'}</span>
                 </div>
 
+                <!-- Price Box -->
                 <div class="detail-price-box">
-                    <div>
-                        <span style="font-size: 0.85rem; color: var(--gray-500); display: block;">Total Price</span>
-                        <div class="detail-price">${formattedPrice}</div>
+                    <div class="detail-price-main">
+                        <span class="detail-price">${formattedPrice}</span>
+                        ${formattedMrp ? `<span class="detail-mrp">${formattedMrp}</span>` : ''}
+                        ${discountPct > 0 ? `<span class="detail-save-badge">${discountPct}% OFF</span>` : ''}
                     </div>
-                    <div>
-                        ${stockPill}
-                    </div>
+                    ${savingsAmount ? `<div style="font-size:0.85rem; color:#16a34a; font-weight:700; margin-top:0.25rem;">You Save: ${savingsAmount} on this order!</div>` : ''}
+                    <div class="tax-text">Inclusive of all taxes (GST) • Free Express Shipping</div>
+                    <div style="margin-top:0.6rem;">${stockPill}</div>
                 </div>
 
-                <div class="detail-desc-title">Product Description</div>
+                <!-- Bank & Festive Offers Box -->
+                <div class="bank-offers-box">
+                    <div class="bank-offers-title">🏷️ ApnaBazar Maha Savings Offers</div>
+                    <div class="bank-offer-item">• <strong>Bank Offer:</strong> Flat 10% Instant Discount on SBI, HDFC & RuPay Cards.</div>
+                    <div class="bank-offer-item">• <strong>UPI Cashback:</strong> Extra ₹50 cashback on Google Pay / PhonePe / Paytm UPI.</div>
+                    <div class="bank-offer-item">• <strong>COD Available:</strong> Pay with cash or UPI QR at delivery time.</div>
+                </div>
+
+                <div class="detail-desc-title">Product Details & Overview</div>
                 <p class="detail-desc">${p.description}</p>
 
+                <!-- Specifications Table -->
                 <div class="detail-specs">
                     <div class="spec-row">
                         <span class="spec-key">Category</span>
-                        <span class="spec-val">${p.category_name}</span>
+                        <span class="spec-val">${p.category_name} (${p.category_name_hi || ''})</span>
                     </div>
                     <div class="spec-row">
-                        <span class="spec-key">Brand</span>
-                        <span class="spec-val">${p.brand || 'Aurora'}</span>
+                        <span class="spec-key">Brand / Maker</span>
+                        <span class="spec-val">${p.brand || 'ApnaBazar Selected'}</span>
                     </div>
                     <div class="spec-row">
-                        <span class="spec-key">Shipping</span>
-                        <span class="spec-val">Free Standard Delivery (2-4 business days)</span>
+                        <span class="spec-key">Delivery Time</span>
+                        <span class="spec-val">Delivers to ${state.userPincode} in 2-4 days</span>
                     </div>
                     <div class="spec-row">
-                        <span class="spec-key">Guarantee</span>
-                        <span class="spec-val">30-day money-back guarantee & authentic warranty</span>
+                        <span class="spec-key">Payment Options</span>
+                        <span class="spec-val">Cash on Delivery (COD), UPI, Net Banking, Credit/Debit Cards</span>
                     </div>
                 </div>
 
+                <!-- Action buttons -->
                 <div class="detail-actions">
                     <div class="qty-control">
                         <button class="qty-btn" id="qty-minus">-</button>
@@ -477,14 +511,14 @@ function renderProductModal() {
                         <button class="qty-btn" id="qty-plus">+</button>
                     </div>
                     <button class="btn-add-cart" id="modal-add-cart-btn" ${p.stock === 0 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
-                        🛒 Add to Cart (${formattedPrice})
+                        🛒 Add to Bag (${formattedPrice})
                     </button>
                 </div>
             </div>
         </div>
     `;
 
-    // Attach thumbnail listeners
+    // Gallery Thumbnails Click Handler
     elements.modalContent.querySelectorAll('.detail-thumb').forEach(thumb => {
         thumb.addEventListener('click', (e) => {
             const idx = parseInt(e.currentTarget.dataset.galleryIdx, 10);
@@ -500,7 +534,7 @@ function renderProductModal() {
         });
     });
 
-    // Quantity buttons
+    // Quantity selector buttons
     const qtyMinus = document.getElementById('qty-minus');
     const qtyPlus = document.getElementById('qty-plus');
     const qtyDisplay = document.getElementById('qty-display');
@@ -525,7 +559,7 @@ function renderProductModal() {
     document.getElementById('modal-add-cart-btn')?.addEventListener('click', () => {
         state.cartCount += state.selectedQuantity;
         elements.navCartCount.textContent = state.cartCount;
-        showToast(`Added ${state.selectedQuantity}x "${p.title}" to cart!`, 'success');
+        showToast(`Added ${state.selectedQuantity}x "${p.title}" to your ApnaBazar Bag!`, 'success');
     });
 
     document.getElementById('breadcrumb-home')?.addEventListener('click', (e) => {
@@ -547,7 +581,7 @@ function closeProductDetail() {
 }
 
 /**
- * Handle URL hash changes for deep linking (e.g. #/product/1)
+ * Handle URL hash changes
  */
 function handleHashRouting() {
     const hash = window.location.hash;
@@ -570,12 +604,11 @@ function resetAllFilters() {
     state.filters.sort = 'newest';
     state.filters.page = 1;
 
-    // Reset inputs
     elements.navSearchInput.value = '';
     elements.searchClearBtn.style.display = 'none';
     elements.priceMinInput.value = '';
     elements.priceMaxInput.value = '';
-    elements.priceRangeSlider.value = 500;
+    elements.priceRangeSlider.value = 15000;
     elements.stockToggle.checked = false;
     elements.sortSelect.value = 'newest';
 
@@ -624,7 +657,7 @@ function setupEventListeners() {
         loadProducts();
     });
 
-    // Quick Bar & Sidebar Category Clicks
+    // Category Clicks
     const handleCategoryClick = (categorySlug) => {
         state.filters.category = categorySlug;
         state.filters.page = 1;
@@ -634,16 +667,12 @@ function setupEventListeners() {
 
     elements.catBar.addEventListener('click', (e) => {
         const chip = e.target.closest('.cat-chip');
-        if (chip) {
-            handleCategoryClick(chip.dataset.category);
-        }
+        if (chip) handleCategoryClick(chip.dataset.category);
     });
 
     elements.sidebarCatList.addEventListener('click', (e) => {
         const item = e.target.closest('.filter-category-item');
-        if (item) {
-            handleCategoryClick(item.dataset.category);
-        }
+        if (item) handleCategoryClick(item.dataset.category);
     });
 
     // Price Slider & Inputs
@@ -663,9 +692,21 @@ function setupEventListeners() {
 
     elements.priceMaxInput.addEventListener('change', (e) => {
         state.filters.maxPrice = e.target.value;
-        elements.priceRangeSlider.value = e.target.value || 500;
+        elements.priceRangeSlider.value = e.target.value || 15000;
         state.filters.page = 1;
         loadProducts();
+    });
+
+    // Quick Price Filter Buttons
+    document.querySelectorAll('.price-quick-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const max = e.currentTarget.dataset.maxPrice;
+            state.filters.maxPrice = max;
+            elements.priceMaxInput.value = max;
+            elements.priceRangeSlider.value = max || 15000;
+            state.filters.page = 1;
+            loadProducts();
+        });
     });
 
     // In-Stock Checkbox
@@ -675,17 +716,17 @@ function setupEventListeners() {
         loadProducts();
     });
 
-    // Sort Dropdown
+    // Sort Select
     elements.sortSelect.addEventListener('change', (e) => {
         state.filters.sort = e.target.value;
         state.filters.page = 1;
         loadProducts();
     });
 
-    // Reset Filters button
+    // Reset button
     elements.resetFiltersBtn.addEventListener('click', resetAllFilters);
 
-    // Remove active filter badge
+    // Active Filters Pill Removal
     elements.activeFiltersBar.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-remove-filter]');
         if (!btn) return;
@@ -703,7 +744,7 @@ function setupEventListeners() {
             state.filters.maxPrice = '';
             elements.priceMinInput.value = '';
             elements.priceMaxInput.value = '';
-            elements.priceRangeSlider.value = 500;
+            elements.priceRangeSlider.value = 15000;
         } else if (filterType === 'inStock') {
             state.filters.inStock = false;
             elements.stockToggle.checked = false;
@@ -712,7 +753,7 @@ function setupEventListeners() {
         loadProducts();
     });
 
-    // Product Card clicks & View Details clicks (delegated)
+    // Product Card Click -> Open Detail
     elements.productsGrid.addEventListener('click', (e) => {
         const card = e.target.closest('.product-card');
         if (card) {
@@ -721,7 +762,7 @@ function setupEventListeners() {
         }
     });
 
-    // Pagination clicks (delegated)
+    // Pagination Click
     elements.paginationWrapper.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-page]');
         if (btn && !btn.disabled) {
@@ -729,40 +770,35 @@ function setupEventListeners() {
             if (page && page !== state.filters.page) {
                 state.filters.page = page;
                 loadProducts();
-                window.scrollTo({ top: 380, behavior: 'smooth' });
+                window.scrollTo({ top: 400, behavior: 'smooth' });
             }
         }
     });
 
-    // Modal close button & overlay click
+    // Modal close & keyboard
     elements.modalCloseBtn.addEventListener('click', closeProductDetail);
     elements.productModal.addEventListener('click', (e) => {
-        if (e.target === elements.productModal) {
-            closeProductDetail();
-        }
+        if (e.target === elements.productModal) closeProductDetail();
     });
-
-    // Escape key to close modal
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && elements.productModal.classList.contains('open')) {
             closeProductDetail();
         }
     });
 
-    // Hash change listener for browser back/forward buttons
     window.addEventListener('hashchange', handleHashRouting);
 
-    // Mobile filter drawer toggle
-    elements.mobileFilterBtn?.addEventListener('click', () => {
-        elements.filterSidebar.classList.add('mobile-open');
-    });
-
-    elements.mobileFilterClose?.addEventListener('click', () => {
-        elements.filterSidebar.classList.remove('mobile-open');
+    // Pincode change simulation
+    elements.pincodeDisplay?.addEventListener('click', () => {
+        const newPin = prompt('Enter delivery pincode (e.g., 400001, 560001, 700001):', '400001');
+        if (newPin && newPin.trim()) {
+            state.userPincode = `${newPin.trim()}`;
+            elements.pincodeDisplay.textContent = state.userPincode;
+            showToast(`Delivery location updated to ${state.userPincode}!`, 'success');
+        }
     });
 }
 
-// Start app once DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {

@@ -179,11 +179,11 @@ test('Product Catalogue API Endpoints', async (t) => {
     });
 
     await t.test('GET /api/products with price range filtering', async () => {
-        const res = await request('GET', '/api/products?minPrice=50&maxPrice=100');
+        const res = await request('GET', '/api/products?minPrice=500&maxPrice=1500');
         assert.equal(res.status, 200);
         assert.ok(res.body.data.length > 0);
         res.body.data.forEach(p => {
-            assert.ok(p.price >= 50 && p.price <= 100);
+            assert.ok(p.price >= 500 && p.price <= 1500);
         });
     });
 
@@ -226,10 +226,10 @@ test('Product Details API Endpoints', async (t) => {
     });
 
     await t.test('GET /api/products/slug/:slug returns product by slug', async () => {
-        const res = await request('GET', '/api/products/slug/apex-mechanical-ergonomic-keyboard');
+        const res = await request('GET', '/api/products/slug/varanasi-pure-katan-silk-handloom-banarasi-saree');
         assert.equal(res.status, 200);
         assert.equal(res.body.success, true);
-        assert.equal(res.body.data.slug, 'apex-mechanical-ergonomic-keyboard');
+        assert.equal(res.body.data.slug, 'varanasi-pure-katan-silk-handloom-banarasi-saree');
     });
 });
 

@@ -107,8 +107,10 @@ export const Product = {
                 p.slug,
                 p.description,
                 p.price,
+                p.mrp,
                 p.category_id,
                 c.name AS category_name,
+                c.name_hi AS category_name_hi,
                 c.slug AS category_slug,
                 p.image_url,
                 p.thumbnail_url,
@@ -118,6 +120,7 @@ export const Product = {
                 p.brand,
                 p.sku,
                 p.is_featured,
+                p.is_cod_eligible,
                 p.created_at
             FROM products p
             JOIN categories c ON p.category_id = c.id
@@ -157,8 +160,10 @@ export const Product = {
                 p.slug,
                 p.description,
                 p.price,
+                p.mrp,
                 p.category_id,
                 c.name AS category_name,
+                c.name_hi AS category_name_hi,
                 c.slug AS category_slug,
                 p.image_url,
                 p.thumbnail_url,
@@ -168,6 +173,7 @@ export const Product = {
                 p.brand,
                 p.sku,
                 p.is_featured,
+                p.is_cod_eligible,
                 p.created_at,
                 p.updated_at
             FROM products p
@@ -215,8 +221,10 @@ export const Product = {
                 p.slug,
                 p.description,
                 p.price,
+                p.mrp,
                 p.category_id,
                 c.name AS category_name,
+                c.name_hi AS category_name_hi,
                 c.slug AS category_slug,
                 p.image_url,
                 p.thumbnail_url,
@@ -226,6 +234,7 @@ export const Product = {
                 p.brand,
                 p.sku,
                 p.is_featured,
+                p.is_cod_eligible,
                 p.created_at,
                 p.updated_at
             FROM products p
