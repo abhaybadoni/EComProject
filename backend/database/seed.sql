@@ -1,5 +1,6 @@
 -- =====================================================================
 -- ApnaBazar (अपना बाज़ार) — Database Seed Data (Indian Catalogue)
+-- Uses locally-hosted, high-fidelity Indian product imagery in /images/products/
 -- =====================================================================
 
 PRAGMA foreign_keys = ON;
@@ -15,7 +16,7 @@ INSERT INTO categories (id, name, name_hi, slug, description) VALUES
 (5, 'Ayurveda & Wellness', 'आयुर्वेद और वेलनेस', 'ayurveda', 'Forest Essentials Kumkumadi, Pure Sandalwood, Chyawanprash & Herbal Hair Oils.');
 
 -- ---------------------------------------------------------------------
--- 2. Seed Products (Values in Indian Rupees ₹)
+-- 2. Seed Products (Local High-Resolution Product Artwork / Images)
 -- ---------------------------------------------------------------------
 INSERT INTO products (id, title, slug, description, price, mrp, category_id, image_url, thumbnail_url, stock, rating, rating_count, brand, sku, is_featured, is_cod_eligible) VALUES
 (
@@ -26,8 +27,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     1899.00,
     2499.00,
     1,
-    'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=300&q=80',
+    '/images/products/kesar-hamper.svg',
+    '/images/products/kesar-hamper.svg',
     40,
     4.9,
     342,
@@ -44,8 +45,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     1450.00,
     1800.00,
     1,
-    'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=300&q=80',
+    '/images/products/a2-desi-ghee.svg',
+    '/images/products/a2-desi-ghee.svg',
     55,
     4.8,
     518,
@@ -62,8 +63,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     799.00,
     999.00,
     1,
-    'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&q=80',
+    '/images/products/darjeeling-tea.svg',
+    '/images/products/darjeeling-tea.svg',
     60,
     4.7,
     194,
@@ -80,8 +81,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     599.00,
     750.00,
     1,
-    'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80',
+    '/images/products/kerala-spices.svg',
+    '/images/products/kerala-spices.svg',
     35,
     4.8,
     145,
@@ -98,8 +99,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     8499.00,
     12999.00,
     2,
-    'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+    '/images/products/banarasi-saree.svg',
+    '/images/products/banarasi-saree.svg',
     12,
     4.9,
     210,
@@ -116,8 +117,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     3299.00,
     4999.00,
     2,
-    'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=300&q=80',
+    '/images/products/chanderi-kurta.svg',
+    '/images/products/chanderi-kurta.svg',
     25,
     4.7,
     165,
@@ -134,8 +135,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     2199.00,
     3200.00,
     2,
-    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80',
+    '/images/products/nehru-jacket.svg',
+    '/images/products/nehru-jacket.svg',
     18,
     4.6,
     98,
@@ -152,8 +153,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     4250.00,
     5999.00,
     2,
-    'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=300&q=80',
+    '/images/products/pashmina-stole.svg',
+    '/images/products/pashmina-stole.svg',
     15,
     4.8,
     112,
@@ -170,8 +171,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     8799.00,
     11490.00,
     3,
-    'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=300&q=80',
+    '/images/products/mixer-grinder.svg',
+    '/images/products/mixer-grinder.svg',
     28,
     4.7,
     680,
@@ -188,8 +189,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     1799.00,
     4999.00,
     3,
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=300&q=80',
+    '/images/products/boat-headphones.svg',
+    '/images/products/boat-headphones.svg',
     65,
     4.6,
     1420,
@@ -206,8 +207,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     3499.00,
     4895.00,
     3,
-    'https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=300&q=80',
+    '/images/products/induction-cooktop.svg',
+    '/images/products/induction-cooktop.svg',
     35,
     4.5,
     390,
@@ -224,8 +225,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     1499.00,
     3999.00,
     3,
-    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80',
+    '/images/products/smartwatch.svg',
+    '/images/products/smartwatch.svg',
     50,
     4.4,
     890,
@@ -242,8 +243,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     2899.00,
     4200.00,
     4,
-    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80',
+    '/images/products/brass-diya.svg',
+    '/images/products/brass-diya.svg',
     20,
     4.9,
     280,
@@ -260,8 +261,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     2350.00,
     3500.00,
     4,
-    'https://images.unsplash.com/photo-1584990347449-399497554e2b?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1584990347449-399497554e2b?auto=format&fit=crop&w=300&q=80',
+    '/images/products/jaipuri-razai.svg',
+    '/images/products/jaipuri-razai.svg',
     22,
     4.8,
     175,
@@ -278,8 +279,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     3450.00,
     3850.00,
     5,
-    'https://images.unsplash.com/photo-1608248597359-00995954625b?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1608248597359-00995954625b?auto=format&fit=crop&w=300&q=80',
+    '/images/products/kumkumadi-fluid.svg',
+    '/images/products/kumkumadi-fluid.svg',
     16,
     4.9,
     410,
@@ -296,8 +297,8 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
     1299.00,
     1750.00,
     5,
-    'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=300&q=80',
+    '/images/products/sandalwood-set.svg',
+    '/images/products/sandalwood-set.svg',
     45,
     4.8,
     230,
@@ -311,38 +312,19 @@ INSERT INTO products (id, title, slug, description, price, mrp, category_id, ima
 -- 3. Seed Multi-Image Gallery per Product
 -- ---------------------------------------------------------------------
 INSERT INTO product_images (product_id, url, alt_text, display_order) VALUES
-(1, 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=1000&q=80', 'Kashmiri Kesar and Almonds Hamper', 1),
-(1, 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=1000&q=80', 'Pure red saffron strands', 2),
-
-(2, 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=1000&q=80', 'Vedic Bilona Ghee glass jar', 1),
-(2, 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=1000&q=80', 'Golden granular texture of bilona ghee', 2),
-
-(3, 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1000&q=80', 'Darjeeling loose leaf tea in tin', 1),
-
-(4, 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80', 'Kerala whole spices collection', 1),
-
-(5, 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80', 'Banarasi Silk Saree emerald gold zari pallu', 1),
-(5, 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=80', 'Zari weave detail Varanasi saree', 2),
-
-(6, 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=80', 'Chanderi silk embroidered kurta set', 1),
-
-(7, 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80', 'Khadi silk Nehru jacket formal look', 1),
-
-(8, 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1000&q=80', 'Kashmiri Pashmina stole hand embroidery', 1),
-
-(9, 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=1000&q=80', 'Preethi Mixer Grinder jars top view', 1),
-
-(10, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80', 'boAt Rockerz 550 wireless headphones', 1),
-(10, 'https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=1000&q=80', 'boAt headphones angled profile', 2),
-
-(11, 'https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=1000&q=80', 'Induction cooktop glass panel', 1),
-
-(12, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80', 'Noise ColorFit smartwatch display', 1),
-
-(13, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80', 'Brass Peacock Diya traditional lamp', 1),
-
-(14, 'https://images.unsplash.com/photo-1584990347449-399497554e2b?auto=format&fit=crop&w=1000&q=80', 'Jaipuri block print cotton razai quilt', 1),
-
-(15, 'https://images.unsplash.com/photo-1608248597359-00995954625b?auto=format&fit=crop&w=1000&q=80', 'Forest Essentials Kumkumadi fluid dropper bottle', 1),
-
-(16, 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=1000&q=80', 'Sandalwood incense and fragrant essential oil', 1);
+(1, '/images/products/kesar-hamper.svg', 'Kashmiri Kesar and Almonds Hamper', 1),
+(2, '/images/products/a2-desi-ghee.svg', 'Vedic Bilona Ghee jar', 1),
+(3, '/images/products/darjeeling-tea.svg', 'Darjeeling loose leaf tea in tin', 1),
+(4, '/images/products/kerala-spices.svg', 'Kerala whole spices collection', 1),
+(5, '/images/products/banarasi-saree.svg', 'Banarasi Silk Saree emerald gold zari pallu', 1),
+(6, '/images/products/chanderi-kurta.svg', 'Chanderi silk embroidered kurta set', 1),
+(7, '/images/products/nehru-jacket.svg', 'Khadi silk Nehru jacket formal look', 1),
+(8, '/images/products/pashmina-stole.svg', 'Kashmiri Pashmina stole hand embroidery', 1),
+(9, '/images/products/mixer-grinder.svg', 'Preethi Mixer Grinder jars view', 1),
+(10, '/images/products/boat-headphones.svg', 'boAt Rockerz 550 wireless headphones', 1),
+(11, '/images/products/induction-cooktop.svg', 'Induction cooktop panel', 1),
+(12, '/images/products/smartwatch.svg', 'Noise ColorFit smartwatch display', 1),
+(13, '/images/products/brass-diya.svg', 'Brass Peacock Diya traditional lamp', 1),
+(14, '/images/products/jaipuri-razai.svg', 'Jaipuri block print cotton razai quilt', 1),
+(15, '/images/products/kumkumadi-fluid.svg', 'Forest Essentials Kumkumadi fluid bottle', 1),
+(16, '/images/products/sandalwood-set.svg', 'Sandalwood incense and essential oil', 1);

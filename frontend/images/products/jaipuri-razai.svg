@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <style>
+      .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    </style>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#831843" />
+      <stop offset="100%" stop-color="#9f1239" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.15)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0)" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="url(#bg-grad)" class="font-sans" />
+  <circle cx="400" cy="400" r="380" fill="url(#glow)" />
+
+  <!-- Outer Border Frame -->
+  <rect x="20" y="20" width="760" height="760" rx="20" fill="none" stroke="#fecdd3" stroke-width="2" opacity="0.4" />
+
+  <!-- Brand & Badge Header -->
+  <rect x="40" y="45" width="220" height="34" rx="6" fill="rgba(0,0,0,0.3)" stroke="#fecdd3" stroke-width="1.5" />
+  <text x="55" y="68" fill="#fecdd3" font-size="13" font-weight="900" letter-spacing="1">JAIPUR LOOM</text>
+
+  <rect x="520" y="45" width="240" height="34" rx="6" fill="#ea580c" />
+  <text x="640" y="67" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="900">100% SURGICAL COTTON • HAND PRINTED</text>
+
+  <!-- Center Artwork -->
+  
+            <circle cx="400" cy="420" r="160" fill="#be123c" opacity="0.3" />
+            <rect x="270" y="300" width="260" height="230" rx="14" fill="#fff1f2" stroke="#be123c" stroke-width="5" />
+            <!-- Block Print Floral Motifs -->
+            <circle cx="340" cy="360" r="25" fill="#fda4af" stroke="#9f1239" stroke-width="3" />
+            <circle cx="460" cy="360" r="25" fill="#fda4af" stroke="#9f1239" stroke-width="3" />
+            <circle cx="400" cy="420" r="30" fill="#fb7185" stroke="#881337" stroke-width="3" />
+            <circle cx="340" cy="475" r="25" fill="#fda4af" stroke="#9f1239" stroke-width="3" />
+            <circle cx="460" cy="475" r="25" fill="#fda4af" stroke="#9f1239" stroke-width="3" />
+            <text x="400" y="432" text-anchor="middle" font-size="32">🌸</text>
+            <text x="400" y="570" text-anchor="middle" fill="#fecdd3" font-size="18" font-weight="bold">TRADITIONAL SANGANER PRINT</text>
+        
+
+  <!-- Bottom Title & Detail Plaque -->
+  <rect x="40" y="680" width="720" height="80" rx="12" fill="rgba(15,23,42,0.85)" stroke="#fecdd3" stroke-width="1.5" />
+  <text x="60" y="715" fill="#ffffff" font-size="20" font-weight="900">Jaipuri Sanganeri Pure Cotton Razai</text>
+  <text x="60" y="742" fill="#fecdd3" font-size="14" font-weight="600">Hand-Block Printed Soft Featherlight Quilt</text>
+  <text x="730" y="730" text-anchor="end" fill="#ffffff" font-size="32">🛏️</text>
+</svg>
