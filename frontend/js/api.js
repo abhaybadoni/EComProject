@@ -1,6 +1,4 @@
-/**
- * Aurora Market API Service
- * Handles all communication with the Express/Node.js REST backend
+/* Handles all communication with the Express/Node.js REST backend
  */
 
 const API_BASE_URL = window.location.origin;

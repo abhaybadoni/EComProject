@@ -1,6 +1,4 @@
-/**
- * ApnaBazar (अपना बाज़ार) — Frontend Application Controller
- * Tailored for Indian e-commerce shopping experience (INR ₹, COD, MRP & Discounts)
+/* ApnaBazar (अपना बाज़ार) — Frontend Application Controller
  */
 
 import api from './api.js';

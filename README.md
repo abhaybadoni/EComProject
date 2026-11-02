@@ -1,7 +1,7 @@
 # ApnaBazar (अपना बाज़ार) — Full-Stack E-Commerce Application
 ### Part 1: Product Listing Website (Indian E-Commerce Platform)
 
-A production-ready full-stack e-commerce application tailored specifically for the **Indian scenario**, inspired by top Indian online marketplaces such as ApnaBazar, Flipkart, and JioMart. Built with a relational SQL database, RESTful API architecture, Indian Rupee (₹) currency handling, MRP discount computations, Cash on Delivery (COD) eligibility, and bilingual (English/Hindi) category navigation.
+ApnaBazar is production-ready full-stack e-commerce application tailored specifically for the **Indian Market**, inspired by top Indian online marketplaces such as Amazon, Flipkart, and JioMart. Built with a relational SQL database, RESTful API architecture, Indian Rupee (₹) currency handling, MRP discount computations, Cash on Delivery (COD) eligibility, and bilingual (English/Hindi) category navigation.
 
 ---
 
@@ -266,8 +266,6 @@ ProgLabProject/
 │   ├── product-listing-page.png  # PNG raster version
 │   ├── product-detail-page.svg   # ApnaBazar product detail modal screenshot
 │   └── product-detail-page.png   # PNG raster version
-├── scripts/
-│   └── generate_screenshots.py  # Automation script to render screenshots
 ├── .gitignore
 ├── package.json                  # Root monorepo launcher
 ├── server.js                     # Unified server entry point
