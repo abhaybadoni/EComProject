@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Market — Curated Goods & Lifestyle Essentials</title>
+    <meta name="description" content="Discover premium electronics, apparel, kitchenware, footwear, and accessories at Aurora Market.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+    <!-- 1. Top Navigation Bar -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="/" class="brand-logo">
+                <div class="brand-icon">A</div>
+                <span>Aurora<span style="color: var(--primary);">Market</span></span>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="nav-search-bar">
+                <span class="nav-search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    id="nav-search-input" 
+                    class="nav-search-input" 
+                    placeholder="Search premium electronics, apparel, kitchenware..." 
+                    autocomplete="off"
+                />
+                <button id="search-clear-btn" class="search-clear-btn" title="Clear search">✕</button>
+            </div>
+
+            <!-- Action items -->
+            <div class="nav-actions">
+                <button class="nav-cart-btn" id="nav-cart-btn" title="View Cart">
+                    <span>🛒</span>
+                    <span>Cart</span>
+                    <span class="cart-badge" id="nav-cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero Showcase Banner -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-pill">
+                    <span>✦</span> Curated Autumn Collection 2026
+                </div>
+                <h1 class="hero-title">Refined essentials for modern living.</h1>
+                <p class="hero-subtitle">
+                    Explore our handpicked catalogue of premium audio gear, ergonomic workspaces, sustainable apparel, and artisanal lifestyle essentials.
+                </p>
+                <div class="hero-features">
+                    <div class="hero-feat-item">
+                        <span>✓</span> <strong>16+ Handcrafted Items</strong>
+                    </div>
+                    <div class="hero-feat-item">
+                        <span>✓</span> <strong>5 Curated Categories</strong>
+                    </div>
+                    <div class="hero-feat-item">
+                        <span>✓</span> <strong>Free Express Shipping</strong>
+                    </div>
+                    <div class="hero-feat-item">
+                        <span>✓</span> <strong>30-Day Hassle-Free Returns</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Category Quick Bar -->
+    <nav class="category-bar-wrapper">
+        <div class="container">
+            <div class="category-bar" id="category-bar">
+                <!-- Dynamically populated category chips -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- 4. Main Products Layout -->
+    <main class="container main-layout">
+        <!-- Sidebar Filters -->
+        <aside class="filter-sidebar" id="filter-sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Filters</h2>
+                <button class="sidebar-reset-btn" id="reset-filters-btn">Clear All</button>
+                <button id="mobile-filter-close" style="display:none; background:none; border:none; font-size:1.25rem;">✕</button>
+            </div>
+
+            <!-- Category Filter List -->
+            <div class="filter-group">
+                <div class="filter-group-title">Categories</div>
+                <div class="filter-category-list" id="sidebar-cat-list">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="filter-group">
+                <div class="filter-group-title">Max Price</div>
+                <input 
+                    type="range" 
+                    id="price-slider" 
+                    class="price-slider" 
+                    min="20" 
+                    max="500" 
+                    step="10" 
+                    value="500"
+                />
+                <div class="price-inputs">
+                    <div class="price-input-wrapper">
+                        <span class="price-input-prefix">$</span>
+                        <input type="number" id="price-min" class="price-input" placeholder="Min" min="0">
+                    </div>
+                    <span style="color: var(--gray-400);">-</span>
+                    <div class="price-input-wrapper">
+                        <span class="price-input-prefix">$</span>
+                        <input type="number" id="price-max" class="price-input" placeholder="Max" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Availability Filter -->
+            <div class="filter-group">
+                <div class="filter-group-title">Availability</div>
+                <label class="stock-toggle-label">
+                    <input type="checkbox" id="stock-toggle" class="stock-toggle-checkbox">
+                    <span>In Stock Only</span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Product Listing Area -->
+        <section class="products-area">
+            <!-- Toolbar: Results count & Sort dropdown -->
+            <div class="products-toolbar">
+                <div class="results-count" id="results-count">
+                    Loading products...
+                </div>
+                <button id="mobile-filter-btn" class="cat-chip" style="display:none;">
+                    ⚙ Filters
+                </button>
+                <div class="sort-wrapper">
+                    <label for="sort-select">Sort by:</label>
+                    <select id="sort-select" class="sort-select">
+                        <option value="newest">Featured &amp; Newest</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="rating_desc">Highest Rated</option>
+                        <option value="title_asc">Name: A to Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Active Filter Badges -->
+            <div class="active-filters-bar" id="active-filters-bar"></div>
+
+            <!-- Product Cards Grid -->
+            <div class="products-grid" id="products-grid">
+                <!-- Product cards injected by app.js -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination-wrapper"></div>
+        </section>
+    </main>
+
+    <!-- 5. Product Details Modal / View -->
+    <div class="modal-overlay" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-container">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close details">✕</button>
+            <div id="modal-content">
+                <!-- Dynamically populated product detail view -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- 7. Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <div class="brand-icon">A</div>
+                        <span>Aurora<span style="color: var(--primary);">Market</span></span>
+                    </div>
+                    <p>
+                        A modern, high-performance e-commerce platform built with clean full-stack engineering practices. Backed by a relational SQL database.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Categories</h4>
+                    <ul class="footer-links">
+                        <li><a href="?category=electronics">Electronics &amp; Audio</a></li>
+                        <li><a href="?category=footwear">Footwear &amp; Sneakers</a></li>
+                        <li><a href="?category=fashion">Fashion &amp; Apparel</a></li>
+                        <li><a href="?category=home-kitchen">Home &amp; Kitchenware</a></li>
+                        <li><a href="?category=accessories">Accessories &amp; Timepieces</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#/">Shipping Policy</a></li>
+                        <li><a href="#/">Returns &amp; Warranty</a></li>
+                        <li><a href="#/">Order Tracking</a></li>
+                        <li><a href="#/">Privacy &amp; Security</a></li>
+                        <li><a href="#/">API Documentation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Architecture Highlights</h4>
+                    <p style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.6; margin-bottom: 0.75rem;">
+                        <strong>Part 1 — Product Listing</strong><br>
+                        Relational SQLite backend with foreign keys, RESTful API endpoints, request validation, responsive frontend, and client-side routing.
+                    </p>
+                    <span style="display:inline-block; font-size:0.75rem; background:var(--gray-100); padding:0.25rem 0.5rem; border-radius:4px; color:var(--gray-700);">
+                        ⚡ Node.js &bull; SQLite &bull; REST API
+                    </span>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>&copy; 2026 Aurora Market Inc. All rights reserved. Full-Stack E-Commerce Project.</div>
+                <div>Engineered with precision for performance, accessibility, and scalability.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

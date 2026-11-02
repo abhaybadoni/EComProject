@@ -1,0 +1,23 @@
+{
+  "name": "fullstack-ecommerce-app",
+  "version": "1.0.0",
+  "description": "Full-Stack E-Commerce Application (Part 1 — Product Listing Website)",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:init": "node backend/database/initDb.js",
+    "test": "node --test backend/tests/api.test.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "full-stack",
+    "sqlite",
+    "express",
+    "rest-api",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT"
+}
