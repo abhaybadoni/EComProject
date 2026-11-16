@@ -66,6 +66,16 @@ export class MiniRouter {
         return this;
     }
 
+    put(pattern, ...handlers) {
+        this.addRoute('PUT', pattern, handlers);
+        return this;
+    }
+
+    delete(pattern, ...handlers) {
+        this.addRoute('DELETE', pattern, handlers);
+        return this;
+    }
+
     addRoute(method, pattern, handlers) {
         const paramNames = [];
         const regexStr = pattern
@@ -117,6 +127,14 @@ export function createApp() {
         },
         post(pattern, ...handlers) {
             rootRouter.post(pattern, ...handlers);
+            return app;
+        },
+        put(pattern, ...handlers) {
+            rootRouter.put(pattern, ...handlers);
+            return app;
+        },
+        delete(pattern, ...handlers) {
+            rootRouter.delete(pattern, ...handlers);
             return app;
         },
         static(dirPath) {
@@ -187,56 +205,81 @@ export function createApp() {
                     return this;
                 };
 
-                // Middleware execution chain
-                let mwIndex = 0;
-                const nextMiddleware = (err) => {
-                    if (err) {
-                        res.status(500).json({ success: false, error: 'Internal Error', message: err.message });
-                        return;
-                    }
-                    if (mwIndex < rootRouter.middlewares.length) {
-                        const mw = rootRouter.middlewares[mwIndex++];
-                        try {
-                            mw(req, res, nextMiddleware);
-                        } catch (e) {
-                            nextMiddleware(e);
-                        }
-                    } else {
-                        dispatchRoute();
-                    }
-                };
-
-                const dispatchRoute = () => {
-                    const matched = rootRouter.match(req.method, pathname);
-                    if (!matched) {
-                        res.status(404).json({
-                            success: false,
-                            error: 'Not Found',
-                            message: `Route ${req.method} ${pathname} not found`
-                        });
-                        return;
-                    }
-
-                    req.params = matched.params;
-                    let handlerIdx = 0;
-                    const nextHandler = (err) => {
+                const startPipeline = () => {
+                    // Middleware execution chain
+                    let mwIndex = 0;
+                    const nextMiddleware = (err) => {
                         if (err) {
-                            res.status(500).json({ success: false, error: 'Server Error', message: err.message });
+                            res.status(500).json({ success: false, error: 'Internal Error', message: err.message });
                             return;
                         }
-                        if (handlerIdx < matched.route.handlers.length) {
-                            const handler = matched.route.handlers[handlerIdx++];
+                        if (mwIndex < rootRouter.middlewares.length) {
+                            const mw = rootRouter.middlewares[mwIndex++];
                             try {
-                                handler(req, res, nextHandler);
+                                mw(req, res, nextMiddleware);
                             } catch (e) {
-                                nextHandler(e);
+                                nextMiddleware(e);
                             }
+                        } else {
+                            dispatchRoute();
                         }
                     };
-                    nextHandler();
+
+                    const dispatchRoute = () => {
+                        const matched = rootRouter.match(req.method, pathname);
+                        if (!matched) {
+                            res.status(404).json({
+                                success: false,
+                                error: 'Not Found',
+                                message: `Route ${req.method} ${pathname} not found`
+                            });
+                            return;
+                        }
+
+                        req.params = matched.params;
+                        let handlerIdx = 0;
+                        const nextHandler = (err) => {
+                            if (err) {
+                                res.status(500).json({ success: false, error: 'Server Error', message: err.message });
+                                return;
+                            }
+                            if (handlerIdx < matched.route.handlers.length) {
+                                const handler = matched.route.handlers[handlerIdx++];
+                                try {
+                                    handler(req, res, nextHandler);
+                                } catch (e) {
+                                    nextHandler(e);
+                                }
+                            }
+                        };
+                        nextHandler();
+                    };
+
+                    nextMiddleware();
                 };
 
-                nextMiddleware();
+                // Parse incoming request body for mutation methods
+                if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
+                    const chunks = [];
+                    req.on('data', chunk => chunks.push(chunk));
+                    req.on('end', () => {
+                        const rawBody = Buffer.concat(chunks).toString();
+                        const contentType = req.headers['content-type'] || '';
+                        if (contentType.includes('application/json') && rawBody.trim()) {
+                            try {
+                                req.body = JSON.parse(rawBody);
+                            } catch {
+                                req.body = {};
+                            }
+                        } else {
+                            req.body = rawBody;
+                        }
+                        startPipeline();
+                    });
+                } else {
+                    req.body = {};
+                    startPipeline();
+                }
             });
 
             return server.listen(port, callback);

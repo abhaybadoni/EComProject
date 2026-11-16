@@ -8,7 +8,8 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "db:init": "node database/initDb.js",
-    "test": "node --test tests/api.test.js"
+    "simulate": "node scripts/simulateTraffic.js",
+    "test": "node --test-concurrency=1 --test tests/api.test.js tests/analytics.test.js"
   },
   "keywords": [
     "ecommerce",

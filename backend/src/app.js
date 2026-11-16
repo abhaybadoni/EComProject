@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { createApp } from './utils/router.js';
 import registerProductRoutes from './routes/productRoutes.js';
 import registerCategoryRoutes from './routes/categoryRoutes.js';
+import registerAnalyticsRoutes from './routes/analyticsRoutes.js';
+import { analyticsTracker } from './middlewares/analyticsTracker.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,6 +45,9 @@ export async function createServer() {
         next();
     });
 
+    // User Visit Tracking & IP Geolocation Middleware
+    app.use(analyticsTracker);
+
     // Explicit Root route to serve the ApnaBazar Single Page Application
     app.get('/', (req, res) => {
         const indexPath = path.join(frontendDir, 'index.html');
@@ -58,6 +63,24 @@ export async function createServer() {
             res.status(404).json({ success: false, error: 'Not Found', message: 'index.html not found' });
         }
     });
+
+    // Admin Dashboard Route
+    const serveAdmin = (req, res) => {
+        const adminPath = path.join(frontendDir, 'admin.html');
+        if (fs.existsSync(adminPath)) {
+            const content = fs.readFileSync(adminPath);
+            res.writeHead(200, {
+                'Content-Type': 'text/html; charset=UTF-8',
+                'Content-Length': content.length,
+                'Cache-Control': 'no-cache'
+            });
+            res.end(content);
+        } else {
+            res.status(404).json({ success: false, error: 'Not Found', message: 'admin.html not found' });
+        }
+    };
+    app.get('/admin', serveAdmin);
+    app.get('/admin.html', serveAdmin);
 
     // Favicon endpoint to avoid 404 console noise
     app.get('/favicon.ico', (req, res) => {
@@ -78,6 +101,7 @@ export async function createServer() {
     // Register API routes
     registerProductRoutes(app);
     registerCategoryRoutes(app);
+    registerAnalyticsRoutes(app);
 
     return { app, isExpress, frontendDir };
 }

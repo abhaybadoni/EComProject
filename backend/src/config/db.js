@@ -21,6 +21,31 @@ const shouldInit = !fs.existsSync(dbPath) || fs.statSync(dbPath).size === 0;
 
 export const db = new DatabaseSync(dbPath);
 db.exec('PRAGMA foreign_keys = ON;');
+db.exec('PRAGMA journal_mode = WAL;');
+db.exec('PRAGMA busy_timeout = 5000;');
+
+// Ensure user_visits analytics table and indexes exist
+db.exec(`
+    CREATE TABLE IF NOT EXISTS user_visits (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ip_address TEXT NOT NULL,
+        country_code TEXT NOT NULL,
+        country_name TEXT NOT NULL,
+        city TEXT,
+        flag TEXT,
+        path TEXT NOT NULL,
+        method TEXT NOT NULL DEFAULT 'GET',
+        user_agent TEXT,
+        device_type TEXT,
+        status_code INTEGER DEFAULT 200,
+        response_time_ms INTEGER DEFAULT 0,
+        is_simulated INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE INDEX IF NOT EXISTS idx_visits_country ON user_visits(country_code);
+    CREATE INDEX IF NOT EXISTS idx_visits_created_at ON user_visits(created_at);
+    CREATE INDEX IF NOT EXISTS idx_visits_ip ON user_visits(ip_address);
+`);
 
 if (shouldInit) {
     console.log('[DB] New database detected. Running schema & seed scripts...');

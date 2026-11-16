@@ -6,6 +6,7 @@
     <title>ApnaBazar (अपना बाज़ार) — Bharat Ka Online Shopping Destination</title>
     <meta name="description" content="Shop authentic Indian groceries, Banarasi sarees, home appliances, boAt audio, and Ayurvedic wellness essentials at ApnaBazar. Super savings, Cash on Delivery & Free Delivery across India.">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/css-generator.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
 </head>
 <body>
@@ -18,6 +19,8 @@
                 <span><strong>Free Delivery</strong> on orders above ₹499 | <strong>Cash on Delivery (COD)</strong> Available</span>
             </div>
             <div class="top-bar-right">
+                <a href="/admin.html" style="color:#fbbf24; text-decoration:none; font-weight:700;">📊 Admin Analytics</a>
+                <span>|</span>
                 <div class="pincode-badge">
                     <span>📍 Deliver to:</span>
                     <strong id="pincode-display">302017 (Malviya Nagar, Jaipur)</strong>
@@ -57,6 +60,16 @@
 
             <!-- Action Buttons -->
             <div class="nav-actions">
+                <button class="nav-deals-btn" id="open-css-studio-btn" style="background:#334155; color:#f8fafc;" title="Customize Appearance & Generate CSS">
+                    <span>🎨</span>
+                    <span>CSS Studio</span>
+                </button>
+
+                <a href="/admin.html" class="nav-deals-btn" style="background:#1e293b; color:#fbbf24; text-decoration:none;" title="Admin Dashboard">
+                    <span>📊</span>
+                    <span>Admin</span>
+                </a>
+
                 <button class="nav-deals-btn" onclick="alert('🎉 Diwali & Festive Dhamaka Offers Active: Flat 10% instant off on UPI payments! Extra 5% off for MNIT Students!')">
                     <span>⚡</span>
                     <span>Maha Deals</span>
@@ -282,6 +295,7 @@
     </footer>
 
     <!-- Frontend ES6 Script -->
+    <script type="module" src="js/cssGenerator.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

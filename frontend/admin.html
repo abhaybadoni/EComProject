@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApnaBazar Admin — Real-Time User Analytics & Traffic Simulator</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/css-generator.css">
+</head>
+<body class="admin-body">
+
+    <!-- Top Admin Header -->
+    <header class="admin-navbar">
+        <div class="container admin-nav-inner">
+            <div class="admin-brand">
+                <a href="/admin.html" class="brand-logo" style="text-decoration:none;">
+                    <div class="brand-icon">AB</div>
+                    <div class="brand-text-wrap">
+                        <div class="brand-name" style="color:white;">Apna<span style="color:#fbbf24;">Bazar</span> <span class="admin-pill">ADMIN</span></div>
+                        <div class="brand-tagline" style="color:#94a3b8;">Real-Time Global Traffic &amp; User Analytics</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="admin-status-bar">
+                <span class="pulse-indicator"></span>
+                <span class="status-text">Live IP Geolocation Engine Active</span>
+            </div>
+
+            <div class="admin-actions">
+                <a href="/" class="admin-btn admin-btn-secondary" title="View Storefront">
+                    <span>🛍️</span> <span>Storefront</span>
+                </a>
+                <button id="open-css-studio-btn" class="admin-btn admin-btn-secondary" title="CSS Theme Generator">
+                    <span>🎨</span> <span>CSS Generator</span>
+                </button>
+                <button id="refresh-btn" class="admin-btn admin-btn-primary" title="Refresh Metrics">
+                    <span>🔄</span> <span>Refresh</span>
+                </button>
+                <button id="clear-btn" class="admin-btn admin-btn-danger" title="Clear Analytics History">
+                    <span>🗑️</span> <span>Reset Logs</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Body -->
+    <main class="container admin-main">
+
+        <!-- KPI Metric Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background:#eff6ff; color:#2563eb;">🌐</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Total Visits</div>
+                    <div class="kpi-value" id="kpi-total-visits">0</div>
+                    <div class="kpi-meta" id="kpi-visits-meta">Tracking all inbound requests</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background:#ecfdf5; color:#059669;">👥</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Unique Visitors (IPs)</div>
+                    <div class="kpi-value" id="kpi-unique-ips">0</div>
+                    <div class="kpi-meta" id="kpi-ips-meta">Distinct IP addresses mapped</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">🗺️</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Countries Reached</div>
+                    <div class="kpi-value" id="kpi-countries-count">0</div>
+                    <div class="kpi-meta" id="kpi-countries-meta">Global geographic presence</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background:#fdf2f8; color:#db2777;">🏆</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Top Country Origin</div>
+                    <div class="kpi-value" id="kpi-top-country">
+                        <span id="kpi-top-flag">🌐</span> <span id="kpi-top-name">None</span>
+                    </div>
+                    <div class="kpi-meta" id="kpi-top-meta">0 visits (0%)</div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background:#f5f3ff; color:#7c3aed;">⚡</div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Traffic Composition</div>
+                    <div class="kpi-value" id="kpi-traffic-split">0 / 0</div>
+                    <div class="kpi-meta" id="kpi-split-meta">Real vs. Simulated Traffic</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature 1.a: Traffic Simulator Control Center -->
+        <section class="admin-panel simulator-panel">
+            <div class="panel-header">
+                <div>
+                    <h2 class="panel-title">
+                        <span>🧪</span> Web Request Traffic Simulator
+                    </h2>
+                    <p class="panel-subtitle">
+                        Simulate live HTTP requests from different global IP addresses, test IP-to-country mapping, and inspect latency in real-time.
+                    </p>
+                </div>
+                <div class="simulator-stream-controls">
+                    <button id="stream-toggle-btn" class="stream-btn">
+                        <span class="stream-icon">▶</span>
+                        <span id="stream-btn-text">Start Live Traffic Stream</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="simulator-body">
+                <!-- Batch Quick Simulators -->
+                <div class="sim-row">
+                    <div class="sim-label">Quick Batch Simulation:</div>
+                    <div class="sim-actions-row">
+                        <button class="sim-quick-btn" data-count="5">🚀 Simulate 5 Visits</button>
+                        <button class="sim-quick-btn" data-count="15">⚡ Simulate 15 Visits</button>
+                        <button class="sim-quick-btn" data-count="50">💥 Simulate 50 Bulk Visits</button>
+                    </div>
+                </div>
+
+                <!-- Country Preset Buttons -->
+                <div class="sim-row">
+                    <div class="sim-label">Simulate Country IP:</div>
+                    <div class="country-chips-grid" id="sim-country-chips">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Custom IP Simulator Form -->
+                <div class="sim-custom-box">
+                    <div class="sim-custom-title">Custom IP Address Injection:</div>
+                    <div class="sim-custom-form">
+                        <div class="form-group">
+                            <label for="custom-ip-input">Target IP Address</label>
+                            <input 
+                                type="text" 
+                                id="custom-ip-input" 
+                                class="admin-input" 
+                                placeholder="e.g. 49.36.12.85, 142.250.190.46, 82.165.197.1"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-path-select">Target Endpoint</label>
+                            <select id="custom-path-select" class="admin-select">
+                                <option value="/">/ (Home Storefront)</option>
+                                <option value="/api/products">/api/products (Catalogue)</option>
+                                <option value="/api/products/1">/api/products/1 (Diya Set)</option>
+                                <option value="/api/products/5">/api/products/5 (Banarasi Saree)</option>
+                                <option value="/api/products/8">/api/products/8 (boAt Headphones)</option>
+                                <option value="/api/categories">/api/categories (Categories)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="custom-device-select">Device Platform</label>
+                            <select id="custom-device-select" class="admin-select">
+                                <option value="Mobile">📱 Mobile</option>
+                                <option value="Desktop">💻 Desktop</option>
+                                <option value="Tablet">📟 Tablet</option>
+                            </select>
+                        </div>
+                        <button id="send-custom-ip-btn" class="admin-btn admin-btn-primary" style="height:42px;">
+                            <span>🚀</span> <span>Send Simulated Request</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Simulator Terminal Console -->
+                <div class="sim-terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-title">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span>Live Request Log Stream</span>
+                        </div>
+                        <button id="clear-terminal-btn" class="terminal-clear-btn">Clear Log</button>
+                    </div>
+                    <div class="terminal-window" id="terminal-window">
+                        <div class="terminal-line muted">[System Ready] Simulator initialized. Click any preset or trigger a simulation above to observe live IP-to-Country resolution.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Country Distribution Breakdown -->
+        <section class="admin-panel">
+            <div class="panel-header">
+                <div>
+                    <h2 class="panel-title">
+                        <span>🗺️</span> Geographic Traffic Distribution (IP-to-Country Mapping)
+                    </h2>
+                    <p class="panel-subtitle">
+                        Every visitor IP address is mapped to its country of origin, city, and ISO code.
+                    </p>
+                </div>
+                <div class="panel-controls">
+                    <input 
+                        type="text" 
+                        id="country-search-input" 
+                        class="admin-input" 
+                        placeholder="Search country..." 
+                        style="width:180px; padding:0.4rem 0.75rem;"
+                    >
+                </div>
+            </div>
+
+            <div class="country-table-wrapper">
+                <table class="admin-table" id="country-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">Flag</th>
+                            <th>Country Name</th>
+                            <th>ISO Code</th>
+                            <th>Hub City</th>
+                            <th>Total Visits</th>
+                            <th>Unique IPs</th>
+                            <th style="width: 260px;">Share of Traffic</th>
+                        </tr>
+                    </thead>
+                    <tbody id="country-table-body">
+                        <tr>
+                            <td colspan="7" class="table-empty">Loading geographic analytics...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Recent Visitor Traffic Logs -->
+        <section class="admin-panel">
+            <div class="panel-header">
+                <div>
+                    <h2 class="panel-title">
+                        <span>📋</span> Recent Visitor Activity Stream
+                    </h2>
+                    <p class="panel-subtitle">
+                        Detailed log of incoming requests with client IP address, resolved location, target path, device platform, and response time.
+                    </p>
+                </div>
+                <div class="panel-controls">
+                    <label class="auto-refresh-toggle">
+                        <input type="checkbox" id="auto-refresh-toggle" checked>
+                        <span>Auto-refresh (3s)</span>
+                    </label>
+                    <select id="table-country-filter" class="admin-select" style="width:150px;">
+                        <option value="all">All Countries</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="recent-table-wrapper">
+                <table class="admin-table" id="recent-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>IP Address</th>
+                            <th>Location (Country &amp; City)</th>
+                            <th>Target Path</th>
+                            <th>Device</th>
+                            <th>Type</th>
+                            <th>Status &amp; Latency</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-table-body">
+                        <tr>
+                            <td colspan="7" class="table-empty">Loading visit logs...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Shared Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Admin JS Module -->
+    <script type="module" src="js/admin.js"></script>
+    <script type="module" src="js/cssGenerator.js"></script>
+</body>
+</html>

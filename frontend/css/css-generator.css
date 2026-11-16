@@ -1,0 +1,351 @@
+/* =====================================================================
+   ApnaBazar (अपना बाज़ार) — CSS Generator & Appearance Studio Stylesheet
+   ===================================================================== */
+
+/* Studio Drawer / Modal Overlay */
+.css-studio-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.css-studio-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.css-studio-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 520px;
+    height: 100%;
+    background: #0f172a;
+    color: #e2e8f0;
+    box-shadow: -8px 0 25px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.css-studio-drawer.active {
+    transform: translateX(0);
+}
+
+/* Studio Header */
+.studio-header {
+    background: #1e293b;
+    padding: 1.15rem 1.5rem;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.studio-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.studio-close-btn {
+    background: #334155;
+    border: none;
+    color: #cbd5e1;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.studio-close-btn:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* Studio Body Scrollable */
+.studio-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Sections */
+.studio-section {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 1.15rem;
+}
+
+.studio-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #93c5fd;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Theme Presets Grid */
+.theme-presets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+}
+
+.preset-card {
+    background: #0f172a;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.preset-card:hover {
+    border-color: #60a5fa;
+    transform: translateY(-2px);
+}
+
+.preset-card.active {
+    border-color: #ea580c;
+    background: rgba(234, 88, 12, 0.08);
+}
+
+.preset-card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 0.4rem;
+}
+
+.preset-swatches {
+    display: flex;
+    gap: 5px;
+}
+
+.swatch-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Controls Grid */
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.control-item label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.color-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+}
+
+.color-picker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0;
+}
+.color-picker::-webkit-color-swatch-wrapper { padding: 0; }
+.color-picker::-webkit-color-swatch { border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; }
+
+.color-hex {
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: #94a3b8;
+}
+
+.studio-select, .studio-range {
+    background: #0f172a;
+    border: 1px solid #475569;
+    color: #f8fafc;
+    padding: 0.45rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    outline: none;
+}
+.studio-select:focus {
+    border-color: #ea580c;
+}
+
+.studio-toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    cursor: pointer;
+    padding: 0.35rem 0;
+}
+
+/* Generated CSS Code Display Box */
+.css-output-box {
+    background: #020617;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.css-output-header {
+    background: #0f172a;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.725rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1e293b;
+}
+
+.css-code-pre {
+    max-height: 140px;
+    overflow-y: auto;
+    padding: 0.75rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #38bdf8;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Studio Footer Actions */
+.studio-footer {
+    background: #1e293b;
+    border-top: 1px solid #334155;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    flex-shrink: 0;
+}
+
+.studio-btn-row {
+    display: flex;
+    gap: 0.65rem;
+}
+
+.studio-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.825rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.studio-btn-primary {
+    background: #ea580c;
+    color: white;
+}
+.studio-btn-primary:hover {
+    background: #c2410c;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+}
+
+.studio-btn-secondary {
+    background: #334155;
+    color: #e2e8f0;
+    border: 1px solid #475569;
+}
+.studio-btn-secondary:hover {
+    background: #475569;
+    color: white;
+}
+
+.studio-btn-outline {
+    background: transparent;
+    color: #94a3b8;
+    border: 1px solid #475569;
+}
+.studio-btn-outline:hover {
+    background: rgba(220, 38, 38, 0.15);
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+/* Floating CSS Studio Launcher Button for Storefront */
+.css-studio-launcher {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: linear-gradient(135deg, #ea580c 0%, #f59e0b 100%);
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.4);
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.css-studio-launcher:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(234, 88, 12, 0.5);
+}
