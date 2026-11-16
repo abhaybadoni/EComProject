@@ -90,6 +90,30 @@ Displays the product details modal with product image, ratings, SKU, pricing bre
 
 ---
 
+### 3. Admin Dashboard 1 (ApnaBazar)
+
+Displays the ApnaBazar Admin Dashboard which shows the user analytics with total visits, unique visitors, countries reached etc.
+
+![ApnaBazar Admin Dashboard](screenshots/Admin-dash1.png)
+
+---
+
+### 4. Admin Dashboard 2 (ApnaBazar)
+
+Displays the ApnaBazar Admin Dashboard which shows the user analytics with ranking countries according to their traffic share.
+
+![ApnaBazar Admin Dashboard](screenshots/Admin-dash2.png)
+
+---
+
+### 4. CSS Generator (ApnaBazar)
+
+Displays the ApnaBazar CSS Generaotor.
+
+![ApnaBazar Admin Dashboard](screenshots/css-generator.png)
+
+---
+
 ## 🏛️ Application Architecture
 
 ```mermaid
