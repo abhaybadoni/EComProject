@@ -106,7 +106,7 @@ Displays the ApnaBazar Admin Dashboard which shows the user analytics with ranki
 
 ---
 
-### 4. CSS Generator (ApnaBazar)
+### 5. CSS Generator (ApnaBazar)
 
 Displays the ApnaBazar CSS Generaotor.
 
