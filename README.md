@@ -110,7 +110,7 @@ Displays the ApnaBazar Admin Dashboard which shows the user analytics with ranki
 
 Displays the ApnaBazar CSS Generaotor.
 
-![ApnaBazar Admin Dashboard](screenshots/css-generator.png)
+![ApnaBazar CSS Generator](screenshots/css-generator.png)
 
 ---
 
